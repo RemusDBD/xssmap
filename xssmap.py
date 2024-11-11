@@ -87,10 +87,10 @@ class XssMap():
                 string.ascii_letters +
                 string.digits,
                 10))
-        if connect.checkInjectabilityByPayload(salt_key) is 1:
+        if connect.checkInjectabilityByPayload(salt_key) == 1:
             print(output.colour_blue(get_time()), output.colour_green_highlight("[INFO]"), "\033[1mparameter \'" + str(test_result.target_parameter) + '\' might be dynamic\033[0m')
             return 1
-        elif connect.checkInjectabilityByPayload(salt_key) is 0:
+        elif connect.checkInjectabilityByPayload(salt_key) == 0:
             print(output.colour_blue(get_time()), output.colour_yellow(
                 "[WARNING]"), "parameter \'" + str(test_result.target_parameter) + '\' might not be dynamic')
             return 0
@@ -108,11 +108,11 @@ class XssMap():
 
         def _worker(payload):
             sem.acquire()
-            if connect.checkInjectabilityByPayload(payload) is 1:
+            if connect.checkInjectabilityByPayload(payload) == 1:
                 print(output.colour_blue(get_time()),output.colour_green("[INFO]"),'test shows that insertion success — ',payload.replace("591",""))
                 test_result.whitelist['close'].append(payload)
 
-            elif connect.checkInjectabilityByPayload(payload) is 0:
+            elif connect.checkInjectabilityByPayload(payload) == 0:
                 if args.verbose:
                     print(output.colour_blue(get_time()), output.colour_green("[INFO]"),'test shows that server filtered - - ', payload.replace("591", ""))
                 test_result.blacklist['close'].append(payload)
@@ -157,12 +157,12 @@ class XssMap():
         threads.clear()
         def _worker(payload):
             sem.acquire()
-            if connect.checkInjectabilityByPayload(payload) is 1:
+            if connect.checkInjectabilityByPayload(payload) == 1:
                 if payload.replace("591","") !=  "\"" and payload.replace("591","") != "'":
                     print(output.colour_blue(get_time()),output.colour_green("[INFO]"),'test shows that insertion success — ',payload.replace("591",""))
                 test_result.whitelist['close_tag'].append(payload)
 
-            elif connect.checkInjectabilityByPayload(payload) is 0:
+            elif connect.checkInjectabilityByPayload(payload) == 0:
                 if args.verbose:
                     print(output.colour_blue(get_time()), output.colour_green("[INFO]"),'test shows that server filtered - - ', payload.replace("591", ""))
                 test_result.blacklist['close_tag'].append(payload)
@@ -307,7 +307,7 @@ class XssMap():
                 '\033[1;37;8m[!] < >>> %3C \033[0m')
 
         def startcheck(payload):
-            if connect.checkInjectabilityByPayload(payload) is 1:
+            if connect.checkInjectabilityByPayload(payload) == 1:
                 print(output.colour_blue(get_time()), output.colour_green("[INFO]"),
                       'test shows that insertion success - ', payload.replace("591", ""))
                 test_result.whitelist['tag'].append(payload)
